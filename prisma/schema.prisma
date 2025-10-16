@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  MENTOR
+  TALENT
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model User {
+  id        String   @id @default(uuid()) // <--- CHANGE: Added @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  phone     String?
+  role      Role
+  image     String?
+  createdAt DateTime @default(now())
+
+  mentor Mentor?
+  talent Talent?
+}
+
+model Department {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  description String?
+
+  mentors      Mentor[]
+  applications Application[]
+}
+
+model Mentor {
+  id              String    @id @default(uuid()) // <--- CHANGE: Added @default(uuid()) for Mentor's own ID
+  name            String
+  surname         String
+  email           String    @unique
+  password        String? // Already String?
+  phone           String?
+  userId          String    @unique
+  departmentId    String?
+  maxStudents     Int?
+  currentStudents Int?
+  sex             String?
+  image           String?
+  address         String?
+  bloodType       String?
+  birthday        DateTime? // Already DateTime?
+
+  user         User          @relation(fields: [userId], references: [id])
+  department   Department?   @relation(fields: [departmentId], references: [id])
+  applications Application[]
+}
+
+model Talent {
+  id        String   @id @default(uuid()) // <--- CHANGE: Added @default(uuid())
+  userId    String   @unique
+  age       Int?
+  education String?
+  github    String?
+  leetcode  String?
+  image     String?
+  createdAt DateTime @default(now())
+
+  user         User          @relation(fields: [userId], references: [id])
+  applications Application[]
+  projects     Project[]
+  certificates Certificate[]
+}
+
+model Application {
+  id           Int               @id @default(autoincrement())
+  talentId     String
+  departmentId String
+  mentorId     String?
+  status       ApplicationStatus @default(PENDING)
+  score        Int?
+  feedback     String?
+  createdAt    DateTime          @default(now())
+
+  talent     Talent     @relation(fields: [talentId], references: [id])
+  department Department @relation(fields: [departmentId], references: [id])
+  mentor     Mentor?    @relation(fields: [mentorId], references: [id])
+}
+
+model Project {
+  id          Int     @id @default(autoincrement())
+  talentId    String
+  projectName String
+  description String?
+  githubRepo  String?
+
+  talent Talent @relation(fields: [talentId], references: [id])
+}
+
+model Certificate {
+  id       Int    @id @default(autoincrement())
+  talentId String
+  title    String
+  fileUrl  String
+
+  talent Talent @relation(fields: [talentId], references: [id])
+}
