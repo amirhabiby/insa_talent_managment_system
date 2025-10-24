@@ -6,11 +6,9 @@
 ### providing their details like Previous Certificate, their Developer Profiles(Github, LeetCode ...)).Mentors are assigned Talents by the System Admin -> Mentors 
 ### can score Talents profile assigned to them only then the System admin would Accept or Reject Talents for the Exam Round, The System can be extended and can Include In-Camp and After-Camp functionalities.
 
-### I have used RBAC(Role-Based Access Controle) for Securing Routes and making sures users are not allowed to visit certain routes that are not intended for 
-### them to visit. Thereby making the System secure and safe to interact and store sensitive data in.
+### I have used RBAC(Role-Based Access Controle) for Securing Routes and making sures users are not allowed to visit certain routes that are not intended for them to visit. Thereby making the System secure and safe to interact and store sensitive data in.
 
-### Besides the Managment aspect, I have also Included a chatbot for answering questions of Talents the overall architecture and Tech stacks of the system and chatbot are as shown 
-### in the pictures below.
+### Besides the Managment aspect, I have also Included a chatbot for answering questions of Talents the overall architecture and Tech stacks of the system and chatbot are as shown in the pictures below.
 
 ## Talent Managment System Architecture: 
 
